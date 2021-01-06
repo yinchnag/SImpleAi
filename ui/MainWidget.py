@@ -24,13 +24,13 @@ class Mainwidget(QWidget):
         self.setFixedWidth(640)
         self.setWindowTitle('SimpleAI')
         self.label_name = QLabel('SIKI学院', self)
-        self.label_name.setGeometry(500, 10, 120, 35)
+        self.label_name.setGeometry(500, 10, 125, 35)
 
         self.label_name = QLabel('Python人工智障', self)
-        self.label_name.setGeometry(500, 40, 120, 35)
+        self.label_name.setGeometry(500, 40, 125, 35)
 
         self.label_name = QLabel('yinc', self)
-        self.label_name.setGeometry(500, 100, 120, 35)
+        self.label_name.setGeometry(500, 100, 125, 35)
 
         self.setWindowIcon(QIcon('./Data/ui/.icon.png'))
 
