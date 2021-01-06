@@ -73,7 +73,7 @@ class Mainwidget(QWidget):
         pass
 
     def on_btn_start_click(self):
-        print('start')
+        #print('start')
         pass
 
     def on_btn_clear_click(self):
