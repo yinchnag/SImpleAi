@@ -14,47 +14,47 @@ import os
 # 8 不
 # 9 与
 
-def get_chinese_data():
-
+def get_chinese_data(path):
+# '../data/chinese_char'
     x = []
     y = []
     # 便利文件夹种所有文件
-    for file_paths, dir_names, file_names in os.walk('../data/chinese_char'):
+    for file_paths, dir_names, file_names in os.walk(path):
         # 拿到文件相对路径
         for  file_name in file_names:
             # print(file_paths+'/'+file_name)
             # 获得每张文件的数据
-            image_data = get_image_data(file_paths+'/'+file_name)
-            x.append(image_data.reshape(-1))
-            if file_paths.find('00000') != 1:
+            image_data = __get_image_data__(file_paths+'/'+file_name)
+            if file_paths.find('00000') != -1:
+                image_data = __get_chinese_data_one__(path=file_paths+'/'+file_name)
                 y.append(0)
-            elif file_paths.find('00001') != 1:
+            elif file_paths.find('00001') != -1:
                 y.append(1)
-            elif file_paths.find('00002') != 1:
+            elif file_paths.find('00002') != -1:
                 y.append(2)
-            elif file_paths.find('00003') != 1:
+            elif file_paths.find('00003') != -1:
                 y.append(3)
-            elif file_paths.find('00004') != 1:
+            elif file_paths.find('00004') != -1:
                 y.append(4)
-            elif file_paths.find('00005') != 1:
+            elif file_paths.find('00005') != -1:
                 y.append(5)
-            elif file_paths.find('00006') != 1:
+            elif file_paths.find('00006') != -1:
                 y.append(6)
-            elif file_paths.find('00007') != 1:
+            elif file_paths.find('00007') != -1:
                 y.append(7)
-            elif file_paths.find('00008') != 1:
+            elif file_paths.find('00008') != -1:
                 y.append(8)
-            elif file_paths.find('00009') != 1:
+            elif file_paths.find('00009') != -1:
                 y.append(9)
+            x.append(image_data.reshape(-1))
             pass
-        print(x)
-        print(y)
+        print('正在运行')
         pass
-
+    return x, y
     pass
 
 
-def get_image_data(path):
+def __get_image_data__(path):
     img = Image.open(path).convert('L')
     # 重新设置图形大小
     img = img.resize((400, 400), Image.ANTIALIAS)
@@ -72,8 +72,8 @@ def get_image_data(path):
     return img_data
     pass
 
-def get_data_x_y_one():
-    img = Image.open('../data/chinese_char/train/00000/702.png').convert('L')
+def __get_chinese_data_one__(path):
+    img = Image.open(path).convert('L')
     # 重新设置图形大小
     img = img.resize((400, 80), Image.ANTIALIAS)
     # 二维数组化
@@ -94,10 +94,11 @@ def get_data_x_y_one():
             pass
         pass
 
-    print(img_data)
-    plt.imshow(img_data, cmap=plt.cm.gray_r)
-    plt.show()
+    # print(img_data)
+    # plt.imshow(img_data, cmap=plt.cm.gray_r)
+    # plt.show()
     # print(img_data.reshape(-1)) # 数据一维化
+    return img_data
     pass
 
-get_chinese_data()
+# get_chinese_data()

@@ -2,6 +2,10 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from ui.PaintBoard import PaintBoard
+from PIL import Image
+import numpy as np
+import matplotlib.pyplot as plt
+import joblib
 #  主窗口
 
 
@@ -23,7 +27,7 @@ class Mainwidget(QWidget):
         self.setFixedHeight(480)
         self.setFixedWidth(640)
         self.setWindowTitle('SimpleAI')
-        self.label_name = QLabel('SIKI学院', self)
+        self.label_name = QLabel('智障中的智障', self)
         self.label_name.setGeometry(500, 10, 125, 35)
 
         self.label_name = QLabel('Python人工智障', self)
@@ -70,10 +74,41 @@ class Mainwidget(QWidget):
 
     def __init_data__(self):
         self.__paintBoard__ = PaintBoard()
+        self.__dic__ = {0: '一', 1: '丁', 2: '七', 3: '万', 4: '丈', 5: '三', 6: '上', 7: '下', 8: '不', 9: '与'}
         pass
 
     def on_btn_start_click(self):
         #print('start')
+        # 加载模型
+        logistic_regression = joblib.load('./model/ml/logistic_regression.model')
+        # 计算图形二维数据
+        x = self.get_model_date_x()
+        # pre
+        result = logistic_regression.predict([x])
+        # 返回结果
+        print(self.__dic__[result[0]])
+        pass
+
+    # 得到可以直接传入模型的数据图形
+    def get_model_date_x(self):
+        # 获取图片
+        img = self.__paintBoard__.get_image()
+        size = img.size()
+        str = img.bits().asstring(size.width() * size.height() * img.depth() // 8)
+        arr = np.fromstring(str, dtype=np.uint8).reshape((size.height(), size.width(), img.depth() // 8))
+
+        real_img = Image.fromarray(arr)
+        real_img = real_img.convert('L')
+        real_img = real_img.resize((400, 400), Image.ANTIALIAS)
+        # 二维数组
+        img_data = np.zeros((400, 400), dtype=np.int)
+        for i in range(400):
+            for j in range(400):
+                img_data[i][j] = 255 - real_img.getpixel((j,i))
+
+        # plt.imshow(img_data, cmap=plt.cm.gray_r)
+        # plt.show()
+        return img_data.ravel()
         pass
 
     def on_btn_clear_click(self):

@@ -103,4 +103,9 @@ class PaintBoard(QWidget):
         image.save('./Data/img/'+uuid.createUuid().toString()+'.png')
         pass
 
+    # 获得图片
+    def get_image(self):
+        return self.__board__.toImage()
+        pass
+
     pass
